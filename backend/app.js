@@ -4,12 +4,11 @@ const express = require("express");
 const path = require("path");
 
 const userRoutes = require("./routes/user");
-// const sauceRoutes = require("./routes/sauce");
+const postRoutes = require("./routes/post");
 
-require("dotenv").config();
+// require("dotenv").config();
 
 const app = express();
-
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -34,6 +33,10 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 // app.use("/api/sauces", sauceRoutes);
 // app.use("/api/auth", userRoutes);
+// app.use("/users", userRoutes);
+app.use("/", userRoutes);
+app.use("/posts", postRoutes);
+// app.use("/posts/:id", postRoutes); // for the page individual
 
 // ------------------
 module.exports = app;

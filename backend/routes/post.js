@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const userCtrl = require("../controllers/user");
+const postCtrl = require("../controllers/post");
 
 // router.post("/signup", userCtrl.signup);
 // router.post("/login", userCtrl.login);
@@ -9,17 +9,15 @@ const userCtrl = require("../controllers/user");
 // testing
 // router.route("/:id").get(userCtrl.getPostById);
 // router.get(userCtrl.getAllPosts).post(userCtrl.createNewPost);
-router.get("/users", (req, res) => {
-  res.send({ data: "Here is your GET data" });
-});
-router.post("/", (req, res) => {
-  res.send({ data: "POST: User created" });
-});
+router.get("/", postCtrl.getAllPosts);
+
+router.get("/:id", postCtrl.getOnePost);
+
+router.post("/", postCtrl.createOnePost);
+
 router.put("/", (req, res) => {
-  res.send({ data: "PUT: User updated" });
+  res.send({ data: "PUT: Post updated" });
 });
-router.delete("/", (req, res) => {
-  res.send({ data: "DELETE: User deleted" });
-});
+router.delete("/:id", postCtrl.deletePost);
 
 module.exports = router;
