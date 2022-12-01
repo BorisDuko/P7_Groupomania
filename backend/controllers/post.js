@@ -42,14 +42,12 @@ exports.createOnePost = async (req, res, next) => {
     [front_p_author_id, front_p_text, front_p_image_url],
 
     function (err, results) {
-      // if (err) throw err; //crushing the app
+      // if (err) throw err;
       if (err) {
-        //console.log(err);
+        console.log(err);
       }
-      console.log(req);
-      //console.log(results);
+      console.log("Post created successfully!");
       res.status(201).json(results);
-      // res.send("Posted");
     }
   );
 };

@@ -3,14 +3,14 @@ const router = express.Router();
 
 const userCtrl = require("../controllers/user");
 
-// router.post("/signup", userCtrl.signup);
+router.post("/signup", userCtrl.signup);
 // router.post("/login", userCtrl.login);
 
-// testing
-// router.route("/:id").get(userCtrl.getPostById);
-// router.get(userCtrl.getAllPosts).post(userCtrl.createNewPost);
-router.get("/users", (req, res) => {
-  res.send({ data: "Here is your GET data" });
+router.get("/signup", (req, res) => {
+  res.send({ data: "Here is your GET USER signup data" });
+});
+router.get("/login", (req, res) => {
+  res.send({ data: "Here is your GET USER login data" });
 });
 router.post("/", (req, res) => {
   res.send({ data: "POST: User created" });

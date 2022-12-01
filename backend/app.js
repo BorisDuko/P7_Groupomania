@@ -31,12 +31,10 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 // app.use(helmet());
 // app.use(mongoSanitize());
 
-// app.use("/api/sauces", sauceRoutes);
 // app.use("/api/auth", userRoutes);
 // app.use("/users", userRoutes);
-app.use("/", userRoutes);
+app.use("/auth", userRoutes);
 app.use("/posts", postRoutes);
-// app.use("/posts/:id", postRoutes); // for the page individual
 
 // ------------------
 module.exports = app;
