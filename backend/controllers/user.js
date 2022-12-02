@@ -26,20 +26,20 @@ exports.signup = (req, res, next) => {
   );
 };
 
-// USER DELETE
-// exports.deletePost = async (req, res, next) => {
-//   let post_id = req.params.id;
-//   let sql = "DELETE FROM post_table WHERE p_id=?";
-//   connection.query(
-//     sql,
-//     post_id,
+// DELETE USER
+exports.deleteUser = (req, res, next) => {
+  let u_id = req.params.id;
+  let sql = "DELETE FROM user_table WHERE u_id=?";
+  connection.query(
+    sql,
+    u_id,
 
-//     function (err, results) {
-//       if (err) {
-//         console.log(err);
-//       }
-//       console.log("Post DELETED");
-//       res.status(200).json(results);
-//     }
-//   );
-// };
+    function (err, results) {
+      if (err) {
+        console.log(err);
+      }
+      console.log("User DELETED");
+      res.status(200).json("User Deleted");
+    }
+  );
+};

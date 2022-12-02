@@ -5,6 +5,7 @@ const userCtrl = require("../controllers/user");
 
 router.post("/signup", userCtrl.signup);
 // router.post("/login", userCtrl.login);
+router.delete("/:id", userCtrl.deleteUser);
 
 router.get("/signup", (req, res) => {
   res.send({ data: "Here is your GET USER signup data" });
@@ -18,7 +19,7 @@ router.post("/", (req, res) => {
 router.put("/", (req, res) => {
   res.send({ data: "PUT: User updated" });
 });
-router.delete("/", (req, res) => {
+router.delete("/:id", (req, res) => {
   res.send({ data: "DELETE: User deleted" });
 });
 

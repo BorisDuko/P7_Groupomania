@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
 
 connection.connect((error) => {
   if (error) throw error;
-  console.log("Successfully connected to MySql db_p7_duko!");
+  // console.log("Successfully connected to db_p7_duko");
 });
 
 module.exports = connection;
