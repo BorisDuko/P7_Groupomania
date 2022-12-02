@@ -8,22 +8,9 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
 });
 
-let sql = "SELECT * FROM user_table";
+connection.connect((error) => {
+  if (error) throw error;
+  console.log("Successfully connected to MySql db_p7_duko!");
+});
 
-// pool.execute(sql, function (err, res) {
-//   if (err) throw err;
-
-//   console.log(res);
-//   res.forEach((res) => {
-//     console.log(res.u_username);
-//   });
-// });
-
-// connection.execute(
-//   "SELECT * FROM `post_table` WHERE `name` = ?",
-//   // req.body.u_username,
-//   function (err, results, fields) {}
-// );
-
-// module.exports = connection.promise();
 module.exports = connection;

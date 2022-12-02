@@ -25,3 +25,21 @@ exports.signup = (req, res, next) => {
     }
   );
 };
+
+// USER DELETE
+// exports.deletePost = async (req, res, next) => {
+//   let post_id = req.params.id;
+//   let sql = "DELETE FROM post_table WHERE p_id=?";
+//   connection.query(
+//     sql,
+//     post_id,
+
+//     function (err, results) {
+//       if (err) {
+//         console.log(err);
+//       }
+//       console.log("Post DELETED");
+//       res.status(200).json(results);
+//     }
+//   );
+// };
