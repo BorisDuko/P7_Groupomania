@@ -39,6 +39,36 @@ exports.signup = async (req, res, next) => {
   );
 };
 
+// USER LOGIN
+exports.login = (req, res, next) => {
+  let front_u_username = req.body.u_username;
+  // let front_u_email = req.body.u_email;
+  let front_u_pwd = req.body.u_pwd;
+
+  // check if user exist
+  connection.query(
+    "SELECT * FROM user_table WHERE u_username = ?",
+    front_u_username,
+    async function (err, result) {
+      if (result.length == 0) {
+        console.log("User doesn't exists");
+        res.status(404).json({ err: "User doesn't exists" });
+        return;
+      } else {
+        // if user - continue
+        let hashedPassword = result[0].u_pwd;
+        if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
+          console.log("Login Successful!");
+          res.status(200).send(`${front_u_username} is logged in!`);
+        } else {
+          console.log("Password Incorrect");
+          res.send("Password incorrect");
+        }
+      }
+    }
+  );
+};
+
 // DELETE USER
 exports.deleteUser = (req, res, next) => {
   let u_id = req.params.id;
