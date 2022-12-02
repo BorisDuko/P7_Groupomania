@@ -7,9 +7,6 @@ router.post("/signup", userCtrl.signup);
 // router.post("/login", userCtrl.login);
 router.delete("/:id", userCtrl.deleteUser);
 
-router.get("/signup", (req, res) => {
-  res.send({ data: "Here is your GET USER signup data" });
-});
 router.get("/login", (req, res) => {
   res.send({ data: "Here is your GET USER login data" });
 });
