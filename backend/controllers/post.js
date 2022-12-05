@@ -55,9 +55,9 @@ exports.createOnePost = async (req, res, next) => {
 // DELETE POST
 exports.deletePost = async (req, res, next) => {
   let post_id = req.params.id;
-  let sql = "DELETE FROM post_table WHERE p_id=?";
+
   connection.query(
-    sql,
+    "DELETE FROM post_table WHERE p_id=?",
     post_id,
 
     function (err, results) {
@@ -70,7 +70,7 @@ exports.deletePost = async (req, res, next) => {
   );
 };
 
-// not sure if needed
+// optional / not sure if needed
 // UPDATE POST
 exports.updatePost = async (req, res, next) => {
   let post_id = req.params.id;

@@ -8,38 +8,37 @@ exports.signup = async (req, res, next) => {
   let front_u_username = req.body.u_username;
   let front_u_email = req.body.u_email;
 
-  // check if user name is available
-  connection.query(
-    "SELECT * FROM user_table WHERE u_username = ?",
-    front_u_username,
-    async function (err, result) {
-      console.log("Result for username query", result); // return array
-      if (result.length > 0) {
-        console.log("This username already taken");
-        res.status(400).json({ err: "This username already taken" });
-        return;
-      } else {
-        // create new user
-        let front_hashed_u_pwd = await bcrypt.hash(req.body.u_pwd, 10);
-        connection.query(
-          "INSERT INTO user_table (u_username, u_email, u_pwd) VALUES (?,?,?)",
-          [front_u_username, front_u_email, front_hashed_u_pwd],
+  // check if user name and email is available
+  userNameUnique = await isInputUnique(front_u_username);
+  emailUnique = await isInputUnique(front_u_email);
+  console.log(userNameUnique);
+  console.log(emailUnique);
+  if (!userNameUnique) {
+    res.status(400).send("This username already taken");
+    return;
+  } else if (!emailUnique) {
+    res.status(400).send("This email already taken");
+    return;
+  } else {
+    // create new user
+    let front_hashed_u_pwd = await bcrypt.hash(req.body.u_pwd, 10);
+    connection.query(
+      "INSERT INTO user_table (u_username, u_email, u_pwd) VALUES (?,?,?)",
+      [front_u_username, front_u_email, front_hashed_u_pwd],
 
-          function (err, results) {
-            // if (err) throw err;
-            if (err) {
-              console.log(err);
-            }
-            console.log("User added successfully!");
-            res.status(201).json(results);
-          }
-        );
+      function (err, results) {
+        // if (err) throw err;
+        if (err) {
+          console.log(err);
+        }
+        console.log("User added successfully!");
+        res.status(201).json(results);
       }
-    }
-  );
-};
+    );
+  }
+}; // end exports.signup
 
-// USER LOGIN
+// USER LOGIN (ignoring front_u_email for now)
 exports.login = (req, res, next) => {
   let front_u_username = req.body.u_username;
   // let front_u_email = req.body.u_email;
@@ -52,13 +51,13 @@ exports.login = (req, res, next) => {
     async function (err, result) {
       if (result.length == 0) {
         console.log("User doesn't exists");
-        res.status(404).json({ err: "User doesn't exists" });
+        res.status(404).send(`${front_u_username} doesn't exist`);
         return;
       } else {
         // if user - continue
         let hashedPassword = result[0].u_pwd;
         if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
-          console.log("Login Successful!");
+          console.log(`${front_u_username} logged in successfully`);
           res.status(200).send(`${front_u_username} is logged in!`);
         } else {
           console.log("Password Incorrect");
@@ -86,3 +85,59 @@ exports.deleteUser = (req, res, next) => {
     }
   );
 };
+
+// DUPLICATE CHECK FUNCTION
+function isInputUnique(input) {
+  connection.query(
+    "SELECT EXISTS(SELECT * FROM user_table WHERE input=?)",
+    input,
+    function (err, result) {
+      if (err) {
+        console.log(err);
+      }
+      if (result > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  );
+} // end function isInputUnique
+
+// -----------------------------------------
+// old user sign up
+// USER SIGNUP
+// exports.signup = async (req, res, next) => {
+//   let front_u_username = req.body.u_username;
+//   let front_u_email = req.body.u_email;
+
+//   // check if user name is available
+//   connection.query(
+//     "SELECT * FROM user_table WHERE u_username = ?",
+//     front_u_username,
+//     async function (err, result) {
+//       console.log("Result for username query", result); // return array
+//       if (result.length > 0) {
+//         console.log("This username already taken");
+//         res.status(400).json({ err: "This username already taken" });
+//         return;
+//       } else {
+//         // create new user
+//         let front_hashed_u_pwd = await bcrypt.hash(req.body.u_pwd, 10);
+//         connection.query(
+//           "INSERT INTO user_table (u_username, u_email, u_pwd) VALUES (?,?,?)",
+//           [front_u_username, front_u_email, front_hashed_u_pwd],
+
+//           function (err, results) {
+//             // if (err) throw err;
+//             if (err) {
+//               console.log(err);
+//             }
+//             console.log("User added successfully!");
+//             res.status(201).json(results);
+//           }
+//         );
+//       }
+//     }
+//   );
+// };
