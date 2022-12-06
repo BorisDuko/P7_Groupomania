@@ -22,7 +22,7 @@ ORDER BY p.p_date_published DESC`;
 exports.getOnePost = async (req, res, next) => {
   let post_id = req.params.id;
   try {
-    const [rows] = await connection.query(
+    const [post] = await connection.query(
       `
     SELECT *
     FROM post_table
@@ -30,7 +30,7 @@ exports.getOnePost = async (req, res, next) => {
     `,
       [post_id]
     );
-    res.status(200).send(rows);
+    res.status(200).send(post);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
@@ -42,7 +42,8 @@ exports.createOnePost = async (req, res, next) => {
   let front_p_text = req.body.p_text;
   let front_p_image_url = req.body.p_image_url;
   try {
-    const result = await connection.query(
+    // const result =
+    await connection.query(
       `
     INSERT INTO
     post_table (p_author_id, p_text, p_image_url)
