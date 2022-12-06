@@ -7,6 +7,8 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
 });
+// .promise()
+// to use async/await
 
 connection.connect((error) => {
   if (error) throw error;
