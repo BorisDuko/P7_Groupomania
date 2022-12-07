@@ -1,23 +1,24 @@
 const connection = require("../config/database");
 
-// ALL POSTS
+// ALL POSTS read/or not by user descending
 exports.getAllPosts = async (req, res, next) => {
+  let userId = req.auth.usedId;
   try {
-    const [rows] = await connection.query("SELECT * FROM user_table");
-    res.status(200).send(rows);
+    const [posts] = await connection.query(
+      `SELECT p.p_id, p.p_text, p.p_date_published, 
+      IF(r.r_user_id = ?, r.r_post_id  , NULL )
+      AS post_read_by_user FROM post_table p 
+      LEFT JOIN read_table r ON p.p_id = r.r_post_id
+      ORDER BY p.p_date_published DESC`,
+      userId
+    );
+    res.status(200).send(posts);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
   }
 };
-//--------------------------------------
-// -- -- Get all posts with a mark for those read by a specific user --
-`SELECT p.p_id, p.p_text, p.p_date_published, 
-IF(r.r_user_id = 2, r.r_post_id  , NULL )
-AS post_read_by_user FROM post_table p 
-LEFT JOIN read_table r ON p.p_id = r.r_post_id
-ORDER BY p.p_date_published DESC`;
-//--------------------------------------
+
 // GET ONE POST
 exports.getOnePost = async (req, res, next) => {
   let post_id = req.params.id;
