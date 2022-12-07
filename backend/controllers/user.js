@@ -44,38 +44,62 @@ exports.signup = async (req, res, next) => {
       res.status(201).send(`${front_u_username} added successfully`);
     }
   } catch (error) {
-    res.status(400).send(`something went wrong ${error}`);
+    res.status(400).send(`something went wrong: ${error}`);
   }
 };
 
 // USER LOGIN (ignoring front_u_email for now)
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
   let front_u_username = req.body.u_username;
   // let front_u_email = req.body.u_email;
   let front_u_pwd = req.body.u_pwd;
-
-  // check if user exist
-  connection.query(
-    "SELECT * FROM user_table WHERE u_username = ?",
-    front_u_username,
-    async (err, result) => {
-      if (result.length == 0) {
-        console.log("User doesn't exists");
-        res.status(404).send(`${front_u_username} doesn't exist`);
-        return;
+  try {
+    const [isUsernameExist] = await connection.query(
+      `SELECT *
+       FROM user_table
+       WHERE u_username = ?`,
+      front_u_username
+    );
+    // check if user exist
+    if (isUsernameExist.length === 0) {
+      console.log("User doesn't exists");
+      res.status(404).send(`${front_u_username} doesn't exist`);
+      return;
+    } else {
+      let hashedPassword = result[0].u_pwd;
+      if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
+        console.log(`${front_u_username} logged in successfully`);
+        res.status(200).send(`${front_u_username} is logged in!`);
       } else {
-        // if user - continue
-        let hashedPassword = result[0].u_pwd;
-        if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
-          console.log(`${front_u_username} logged in successfully`);
-          res.status(200).send(`${front_u_username} is logged in!`);
-        } else {
-          console.log("Password Incorrect");
-          res.send("Password incorrect");
-        }
+        console.log("Password Incorrect");
+        res.send("Password incorrect");
       }
     }
-  );
+  } catch (error) {
+    res.status(400).send(`something went wrong: ${error}`);
+  }
+
+  // connection.query(
+  //   "SELECT * FROM user_table WHERE u_username = ?",
+  //   front_u_username,
+  //   async (err, result) => {
+  //     if (result.length == 0) {
+  //       console.log("User doesn't exists");
+  //       res.status(404).send(`${front_u_username} doesn't exist`);
+  //       return;
+  //     } else {
+  //       // if user - continue
+  //       let hashedPassword = result[0].u_pwd;
+  //       if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
+  //         console.log(`${front_u_username} logged in successfully`);
+  //         res.status(200).send(`${front_u_username} is logged in!`);
+  //       } else {
+  //         console.log("Password Incorrect");
+  //         res.send("Password incorrect");
+  //       }
+  //     }
+  //   }
+  // );
 };
 
 // DELETE USER
