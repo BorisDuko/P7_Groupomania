@@ -1,7 +1,11 @@
 require("dotenv").config();
 const connection = require("../config/database");
 const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = process.env.SECRET_KEY;
+// security improvements
+// const validator = require("email-validator");
+// const passwordValidator = require("password-validator");
 
 // USER SIGNUP
 exports.signup = async (req, res, next) => {
@@ -54,36 +58,43 @@ exports.login = async (req, res, next) => {
   let front_u_pwd = req.body.u_pwd;
   try {
     const [isUsernameExist] = await connection.query(
-      `SELECT u_pwd
+      `SELECT *
        FROM user_table
        WHERE u_username = ?`,
-      front_u_username
+      [front_u_username]
     );
     // check if user exist
-    if (isUsernameExist.length == 0) {
+    if (isUsernameExist.length === 0) {
       console.log("User doesn't exists");
       res.status(404).send(`${front_u_username} doesn't exist`);
       return;
     } else {
       let hashedPassword = isUsernameExist[0].u_pwd;
-      console.log(hashedPassword);
+      let userId = isUsernameExist[0].u_id;
       if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
+        const token = jwt.sign({ userId }, SECRET_KEY, {
+          expiresIn: "24h",
+        });
+        console.log("userId:", userId);
         console.log(`${front_u_username} logged in successfully`);
-        res.status(200).send(`${front_u_username} is logged in!`);
+        // res.status(200).send(`${front_u_username} is logged in!`);
+        res.status(200).json({
+          userId: isUsernameExist[0].u_id,
+          token: token,
+        });
       } else {
         console.log("Password Incorrect");
         res.send("Password incorrect");
       }
     }
   } catch (error) {
-    res.status(400).send(`something went wrong: ${error}`);
+    res.status(500).send(`something went wrong-> ${error}`);
   }
 };
 
 // DELETE USER
 exports.deleteUser = async (req, res, next) => {
   let u_id = req.params.id;
-  let sql = "DELETE FROM user_table WHERE u_id=?";
   try {
     await connection.query(`DELETE FROM user_table WHERE u_id=?`, u_id);
     console.log("User DELETED");
@@ -93,3 +104,17 @@ exports.deleteUser = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
+
+// find out user's ID
+async function getUserId(username) {
+  let [userId] = await connection.query(
+    `SELECT u_id 
+     FROM user_table 
+     WHERE u_username=?`,
+    username
+  );
+  console.log("User's ID:", userId[0].u_id);
+  return userId[0].u_id;
+}
+
+// getUserId("new_user2"); // 35

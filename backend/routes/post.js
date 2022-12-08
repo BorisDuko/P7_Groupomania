@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// const auth = require("../middleware/auth");
+const auth = require("../middleware/auth");
 // const multer = require("../middleware/multer-config");
 
 const postCtrl = require("../controllers/post");
@@ -12,7 +12,7 @@ const postCtrl = require("../controllers/post");
 // testing
 // router.route("/:id").get(userCtrl.getPostById);
 // router.get(userCtrl.getAllPosts).post(userCtrl.createNewPost);
-router.get("/", postCtrl.getAllPosts);
+router.get("/", auth, postCtrl.getAllPosts);
 router.post("/", postCtrl.createOnePost);
 router.get("/:id", postCtrl.getOnePost);
 router.delete("/:id", postCtrl.deletePost);
