@@ -10,9 +10,20 @@ const connection = mysql
   })
   .promise();
 
-connection.connect((error) => {
-  if (error) throw error;
-  console.log("Successfully connected to db_p7_duko");
-});
+async function connectionToDatabase() {
+  try {
+    await connection.connect;
+    console.log("Successfully connected to db_p7_duko");
+  } catch (error) {
+    throw error;
+  }
+}
+// connectionToDatabase();
 
 module.exports = connection;
+
+// callback connection (old way)
+// connection.connect((error) => {
+//   if (error) throw error;
+//   console.log("Successfully connected to db_p7_duko");
+// });
