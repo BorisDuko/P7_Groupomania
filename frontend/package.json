@@ -40,7 +40,12 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "space-before-blocks": "off",
+      "quotes": "off",
+      "semi": 0,
+      "comma-dangle": "off"
+    }
   },
   "browserslist": [
     "> 1%",
