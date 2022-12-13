@@ -73,7 +73,7 @@ exports.login = async (req, res, next) => {
       let userId = isUsernameExist[0].u_id;
       if (await bcrypt.compare(front_u_pwd, hashedPassword)) {
         const token = jwt.sign({ userId }, SECRET_KEY, {
-          expiresIn: "24h",
+          expiresIn: "23h",
         });
         console.log("userId:", userId);
         console.log(`${front_u_username} logged in successfully`);
