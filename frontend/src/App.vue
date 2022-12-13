@@ -7,7 +7,7 @@
             src="./assets/groupomania_logo.png"
             width="30"
             height="30"
-            alt=""
+            alt="brand logo"
           />
           <span class="navbar-brand mb-0 h1">Groupomania</span>
         </div>

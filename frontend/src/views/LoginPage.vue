@@ -49,6 +49,9 @@ export default {
       password: "",
     };
   },
+  // mounted: function () {
+  //   this.$router.replace("DashBoard");
+  // },
   methods: {
     submitLogin() {
       console.log(`Email: ${this.username}`);

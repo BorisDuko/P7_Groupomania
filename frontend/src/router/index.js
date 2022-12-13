@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignupPage from "../views/SignupPage.vue";
 import LoginPage from "../views/LoginPage.vue";
+import DashBoard from "../views/DashBoard.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/auth/login",
     name: "Login",
     component: LoginPage,
+  },
+  {
+    path: "/posts",
+    name: "DashBoard",
+    component: DashBoard,
   },
 ];
 
