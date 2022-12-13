@@ -31,7 +31,6 @@
             Login
           </button>
           <!-- <button type="submit" class="btn btn-primary">Login</button> -->
-          <div>Making changes</div>
         </form>
       </div>
 
