@@ -10,6 +10,7 @@
             <label for="exampleInputEmail1">Username</label>
             <input
               type="text"
+              name="username"
               class="form-control"
               id="formUsername"
               v-model="username"
@@ -20,6 +21,7 @@
             <label for="exampleInputEmail1">Email address</label>
             <input
               type="email"
+              name="email"
               class="form-control"
               id="formEmail"
               aria-describedby="emailHelp"
@@ -31,6 +33,7 @@
             <label for="exampleInputPassword1">Password</label>
             <input
               type="password"
+              name="password"
               class="form-control"
               id="formPassword"
               v-model="password"
@@ -60,6 +63,8 @@
 </template>
 
 <script>
+// import axios from "axios";
+
 export default {
   name: "SignupPage",
   data() {

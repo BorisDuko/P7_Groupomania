@@ -3,13 +3,15 @@
     <header class="header-register">
       <nav class="navbar navbar-light bg-light">
         <div class="logo-brand">
-          <img
-            src="./assets/groupomania_logo.png"
-            width="30"
-            height="30"
-            alt="brand logo"
-          />
-          <span class="navbar-brand mb-0 h1">Groupomania</span>
+          <router-link class="nav-link" to="/home">
+            <img
+              src="./assets/groupomania_logo.png"
+              width="30"
+              height="30"
+              alt="brand logo"
+            />
+            <span class="navbar-brand mb-0 h1">Groupomania</span>
+          </router-link>
         </div>
         <div class="login-signup-buttons">
           <router-link class="mr-sm-2 nav-link" to="/auth/login"
@@ -33,9 +35,20 @@
   </div>
 </template>
 
+<script>
+// import HelloWorld from "./components/HelloWorld.vue";
+export default {
+  name: "App",
+  component: {
+    // HelloWorld, // example how to connect components
+  },
+};
+</script>
+
 <style lang="scss">
 .login-signup-buttons {
   display: flex;
+  align-items: center;
 }
 // #app {
 // }

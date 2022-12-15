@@ -8,12 +8,13 @@ exports.getAllPosts = async (req, res, next) => {
   try {
     const [posts] = await connection.query(
       `SELECT p.p_id, p.p_text, p.p_date_published, 
-      IF(r.r_user_id = ?, r.r_post_id  , NULL )
+      IF(r.r_user_id = ?, TRUE  , FALSE )
       AS post_read_by_user FROM post_table p 
       LEFT JOIN read_table r ON p.p_id = r.r_post_id
       ORDER BY p.p_date_published DESC`,
       [userId]
     );
+
     res.status(200).send(posts);
   } catch (error) {
     console.log(error);

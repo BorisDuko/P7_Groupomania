@@ -2,11 +2,15 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignupPage from "../views/SignupPage.vue";
 import LoginPage from "../views/LoginPage.vue";
-import DashBoard from "../views/DashBoard.vue";
+import PostsAll from "../views/PostsAll.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "",
+    redirect: "/auth/login", // redirect on startup to login page
+  },
+  {
+    path: "/home",
     name: "home",
     component: HomeView,
   },
@@ -22,8 +26,8 @@ const routes = [
   },
   {
     path: "/posts",
-    name: "DashBoard",
-    component: DashBoard,
+    name: "PostsAll",
+    component: PostsAll,
   },
 ];
 
