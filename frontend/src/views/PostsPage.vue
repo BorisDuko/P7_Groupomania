@@ -2,9 +2,10 @@
   <div class="container">
     <h1>Posts Page</h1>
     <div v-if="errors" class="errors-container">{{ errors }}</div>
-    <button @click="getAllPosts" type="button" class="btn btn-dark">
+    <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
+    <button @click="logout" type="button" class="btn btn-light">Logout</button>
     <div
       v-for="post in posts"
       :key="post.p_id"
@@ -64,7 +65,7 @@ export default {
     }
   },
   methods: {
-    async getAllPosts() {
+    async refreshPostsButton() {
       const accessToken = localStorage.getItem("accessToken");
       // console.log("Access Token:", accessToken);
       // const userId = localStorage.getItem("userId");
@@ -85,6 +86,10 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.push("/");
     },
   },
 };
