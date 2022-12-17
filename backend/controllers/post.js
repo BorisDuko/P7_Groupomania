@@ -2,17 +2,18 @@ const connection = require("../config/database");
 
 // ALL POSTS read/or not by user descending
 exports.getAllPosts = async (req, res, next) => {
-  const userId = req.auth.usedId;
+  const userId = req.auth.userId;
   // let userId = 35;
   // console.log(req.auth);
   try {
     const [posts] = await connection.query(
-      `SELECT p.p_id, p.p_text, p.p_date_published, 
+      `SELECT p.p_id, p.p_text, p.p_date_published, r.r_user_id , 
       IF(r.r_user_id = ?, TRUE  , FALSE )
-      AS post_read_by_user FROM post_table p 
-      LEFT JOIN read_table r ON p.p_id = r.r_post_id
-      ORDER BY p.p_date_published DESC`,
-      [userId]
+      AS p_read_by_user FROM post_table p
+      LEFT JOIN (SELECT * FROM read_table WHERE r_user_id = ?) r 
+      ON p.p_id = r.r_post_id
+      ORDER BY p.p_date_published DESC;`,
+      [userId, userId]
     );
 
     res.status(200).send(posts);

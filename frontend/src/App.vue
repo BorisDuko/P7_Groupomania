@@ -36,11 +36,11 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
+// import PostsAll from "./components/PostsAll.vue";
 export default {
   name: "App",
   component: {
-    // HelloWorld, // example how to connect components
+    // PostsAll,
   },
 };
 </script>

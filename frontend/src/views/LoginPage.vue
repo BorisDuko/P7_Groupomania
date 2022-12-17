@@ -54,20 +54,9 @@ export default {
     };
   },
   // mounted: function () {
-  //   this.$router.replace("PostsAll");
+  //   this.$router.replace("/posts");
   // },
-  /**
-   * to try redirect/ instead of push - replace
-    //  const userId = data.userId.value
-    // we can manually build the url but we will have to handle the encoding ourselves
-    router.push(`/user/${username}`) // -> /user/eduardo
-    // same as
-    router.push({ path: `/user/${username}` }) // -> /user/eduardo
-    // if possible use `name` and `params` to benefit from automatic URL encoding
-    router.push({ name: 'user', params: { username } }) // -> /user/eduardo
-    // `params` cannot be used alongside `path`
-    router.push({ path: '/user', params: { username } }) // -> /user
-   */
+
   methods: {
     async submitLogin() {
       console.log(`Email: ${this.username}`);
@@ -80,12 +69,18 @@ export default {
         });
         console.log(response);
         const resStatus = response.request.status; // 200
-        console.log(resStatus);
         // if login successful
         if (resStatus === 200) {
-          // this.$router.replace("PostsAll"); // redirect to allPosts page
+          // ------------------
+          // getting token & userId
+          const token = response.data.token;
           const userId = response.data.userId;
-          console.log("UserId:", userId);
+          // push values to local storage
+          localStorage.setItem("accessToken", token);
+          localStorage.setItem("userId", userId);
+          // ------------------
+
+          this.$router.push("/posts"); // redirect to allPosts page
         }
       } catch (error) {
         console.log("authError");

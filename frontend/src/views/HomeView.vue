@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>{{ welcomeMsg }}</h1>
+    <h1>{{ welcomeMessage }}</h1>
     <p>Nothing here yet - but you can click for some jokes</p>
     <!-- axios testing  -->
     <button @click="showJoke" class="btn btn-info joke" type="button">
@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       joke: "",
-      welcomeMsg: "Welcome to Groupomania home page",
+      welcomeMessage: "Welcome to Groupomania home page",
     };
   },
   methods: {

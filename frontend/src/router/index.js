@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignupPage from "../views/SignupPage.vue";
 import LoginPage from "../views/LoginPage.vue";
-import PostsAll from "../views/PostsAll.vue";
+import PostsPage from "../views/PostsPage.vue";
 
 const routes = [
   {
@@ -26,8 +26,8 @@ const routes = [
   },
   {
     path: "/posts",
-    name: "PostsAll",
-    component: PostsAll,
+    name: "Posts",
+    component: PostsPage,
   },
 ];
 
