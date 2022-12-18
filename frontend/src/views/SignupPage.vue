@@ -51,8 +51,15 @@
             >NO spaces
           </div>
 
-          <button @click.prevent="submitSignup" class="btn btn-primary">
+          <button
+            @click.prevent="submitSignup"
+            class="btn btn-primary"
+            type="button"
+          >
             Signup
+          </button>
+          <button @click="goBack" class="btn btn-outline-primary">
+            Cancel
           </button>
         </form>
       </div>
@@ -80,16 +87,23 @@ export default {
       console.log(`Email: ${this.email}`);
       console.log(`Password: ${this.password}`);
     },
-  },
-  shortPwd() {
-    const pwd = this.password;
-    if (pwd > 1 && pwd < 6) {
-      return true;
-    } else {
-      return false;
-    }
+    goBack() {
+      this.$router.push(`/auth/login`);
+    },
+    shortPwd() {
+      const pwd = this.password;
+      if (pwd > 1 && pwd < 6) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-outline-primary {
+  margin-left: 20px;
+}
+</style>

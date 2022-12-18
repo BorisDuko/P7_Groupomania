@@ -28,15 +28,21 @@
               v-model="password"
             />
           </div>
-
-          <button
-            @click.prevent="submitLogin"
-            type="submit"
-            class="btn btn-primary"
-          >
-            Login
-          </button>
-          <!-- <button type="submit" class="btn btn-primary">Login</button> -->
+          <div class="login-buttons">
+            <button
+              @click.prevent="submitLogin"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Login
+            </button>
+            <router-link
+              class="btn btn-outline-primary my-2 my-sm-0"
+              to="/auth/signup"
+            >
+              Signup
+            </router-link>
+          </div>
         </form>
       </div>
 
@@ -96,4 +102,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-outline-primary {
+  margin-left: 20px;
+}
+</style>

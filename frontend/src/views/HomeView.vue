@@ -1,5 +1,17 @@
 <template>
-  <div class="home">
+  <div class="home-container">
+    <header class="header-register">
+      <nav class="navbar navbar-light bg-light">
+        <div class="login-signup-buttons">
+          <router-link class="mr-sm-2 nav-link" to="/auth/login"
+            >Login</router-link
+          >
+          <router-link class="mr-sm-2 nav-link" to="/auth/signup">
+            Signup
+          </router-link>
+        </div>
+      </nav>
+    </header>
     <h1>{{ welcomeMessage }}</h1>
     <p>Nothing here yet - but you can click for some jokes</p>
     <!-- axios testing  -->
@@ -38,7 +50,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home {
+.home-container {
   margin: 0 16px;
   display: flex;
   flex-direction: column;
@@ -46,5 +58,10 @@ export default {
 }
 .joke {
   margin-top: 16px;
+}
+.login-signup-buttons {
+  position: absolute;
+  top: -80px;
+  left: 266px;
 }
 </style>

@@ -2,37 +2,39 @@
   <div class="container">
     <!-- // single post button -->
     <button @click="getOnePost">getOnePost function</button>
-    <h1>Posts Page.</h1>
+    <h1>Posts Page</h1>
+    <button @click="refreshPostsButton" type="button" class="btn btn-dark">
+      Refresh
+    </button>
     <div class="user-info">
-      <h3>Logged in as {{ username }}</h3>
+      <h4>Hello {{ username }}</h4>
       <button @click="logout" type="button" class="btn btn-light logout">
         Logout
       </button>
     </div>
+    <div class="posts-container">
+      <div v-if="errors" class="errors-container">{{ errors }}</div>
 
-    <div v-if="errors" class="errors-container">{{ errors }}</div>
-    <button @click="refreshPostsButton" type="button" class="btn btn-dark">
-      Refresh
-    </button>
+      <div
+        v-for="post in posts"
+        :key="post.p_id"
+        class="card bg-light mb-3"
+        style="max-width: 24rem"
+      >
+        <div class="card-header">
+          Post № {{ post.p_id }} <br />
+          posted: {{ post.p_date_published }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">card title</h5>
+          <p class="card-text">(Post text): {{ post.p_text }}</p>
 
-    <div
-      v-for="post in posts"
-      :key="post.p_id"
-      class="card bg-light mb-3"
-      style="max-width: 24rem"
-    >
-      <div class="card-header">
-        Header p_id: {{ post.p_id }} | post date: {{ post.p_date_published }}
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">card title</h5>
-        <p class="card-text">post.p_text: {{ post.p_text }}</p>
-
-        <span
-          @click="fullPost(post.p_id)"
-          class="badge badge-pill badge-secondary"
-          >... more</span
-        >
+          <span
+            @click="fullPost(post.p_id)"
+            class="badge badge-pill badge-secondary"
+            >...see more</span
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -137,13 +139,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.posts-container {
+  margin: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .badge {
   cursor: pointer;
 }
 .user-info {
   display: flex;
+  position: absolute;
+  top: 21px;
+  right: 10px;
 }
 .logout {
-  margin-left: 36px;
+  margin-left: 20px;
 }
 </style>
