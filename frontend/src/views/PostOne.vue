@@ -25,10 +25,12 @@ export default {
   // lifecycle
   async created() {
     const accessToken = localStorage.getItem("accessToken");
+    const postId = this.$router.query.p_id;
     // post ID need to be added TODO
+    console.log(postId);
     const config = {
       method: "get",
-      url: "http://localhost:3000/posts/14",
+      url: `http://localhost:3000/posts/${postId}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

@@ -14,7 +14,7 @@ const postCtrl = require("../controllers/post");
 // router.get(userCtrl.getAllPosts).post(userCtrl.createNewPost);
 router.get("/", auth, postCtrl.getAllPosts);
 router.post("/", postCtrl.createOnePost);
-router.get("/:id", auth, postCtrl.getOnePost);
+router.get("/:id", postCtrl.getOnePost);
 router.delete("/:id", postCtrl.deletePost);
 
 router.put("/:id", postCtrl.updatePost);

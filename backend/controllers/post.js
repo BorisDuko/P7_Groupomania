@@ -7,10 +7,12 @@ exports.getAllPosts = async (req, res, next) => {
   // console.log(req.auth);
   try {
     const [posts] = await connection.query(
-      `SELECT p.* , u.*,  r.r_user_id , IF(p.p_author_id = ?  OR r.r_user_id = ?, TRUE  , FALSE )AS p_readby_user FROM post_table p
-LEFT JOIN (SELECT * FROM read_table WHERE r_user_id = ?) r ON p.p_id = r.r_post_id
-INNER JOIN user_table u ON u.u_id = p.p_author_id
-ORDER BY p.p_date_published DESC;`,
+      `SELECT p.* , u.*,  r.r_user_id , 
+      IF(p.p_author_id = ?  OR r.r_user_id = ?, TRUE  , FALSE )
+      AS p_readby_user FROM post_table p
+      LEFT JOIN (SELECT * FROM read_table WHERE r_user_id = ?) r ON p.p_id = r.r_post_id
+      INNER JOIN user_table u ON u.u_id = p.p_author_id
+      ORDER BY p.p_date_published DESC;`,
       [userId, userId, userId]
     );
 
@@ -24,13 +26,13 @@ ORDER BY p.p_date_published DESC;`,
 // GET ONE POST
 exports.getOnePost = async (req, res, next) => {
   let post_id = req.params.id;
+
   try {
     const [post] = await connection.query(
-      `
-    SELECT *
-    FROM post_table
-    WHERE p_id=?
-    `,
+      `SELECT  p.*, u.*
+      FROM post_table p
+      INNER JOIN user_table u ON p.p_author_id = u.u_id
+      WHERE p.p_id = ?;`,
       [post_id]
     );
     res.status(200).send(post);

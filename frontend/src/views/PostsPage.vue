@@ -30,7 +30,7 @@
           <p class="card-text">(Post text): {{ post.p_text }}</p>
 
           <span
-            @click="fullPost(post.p_id)"
+            @click="seeFullPost(post.p_id)"
             class="badge badge-pill badge-secondary"
             >...see more</span
           >
@@ -130,7 +130,7 @@ export default {
         console.log(error);
       }
     },
-    async fullPost(id) {
+    async seeFullPost(id) {
       console.log(id);
       this.$router.push(`/posts/${id}`);
     },
