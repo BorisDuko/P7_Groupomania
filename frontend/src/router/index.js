@@ -31,7 +31,7 @@ const routes = [
     component: PostsPage,
   },
   {
-    path: "/posts/PostOne",
+    path: "/posts/:id",
     name: "OnePost",
     component: PostOne,
   },

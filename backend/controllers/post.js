@@ -25,15 +25,15 @@ exports.getAllPosts = async (req, res, next) => {
 
 // GET ONE POST
 exports.getOnePost = async (req, res, next) => {
-  let post_id = req.params.id;
+  let p_id = req.params.id;
 
   try {
     const [post] = await connection.query(
       `SELECT  p.*, u.*
       FROM post_table p
       INNER JOIN user_table u ON p.p_author_id = u.u_id
-      WHERE p.p_id = ?;`,
-      [post_id]
+      WHERE p.p_id = ?`,
+      [p_id]
     );
     res.status(200).send(post);
   } catch (error) {

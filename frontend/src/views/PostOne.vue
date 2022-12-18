@@ -1,10 +1,19 @@
 <template>
   <div class="container">
     <div class="card">
-      <div class="card-header">post ID: {{ post.p_id }}</div>
+      <div class="card-header">
+        post ID: {{ post.p_id }} by {{ post.u_username }} <br />
+        @:{{ post.p_date_published }}
+      </div>
       <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">text here ---- {{ post.p_text }}</p>
+        <h5 class="card-title">title (if needed)</h5>
+        <p class="card-text">
+          text here ⤵ <br />
+          {{ post.p_text }}
+        </p>
+        <div v-if="post.p_image_url" class="image-div">
+          <p>Here will be image if there is one: {{ post.p_image_url }}</p>
+        </div>
         <a @click="goBack" class="btn btn-primary">Go back</a>
       </div>
     </div>
@@ -25,9 +34,8 @@ export default {
   // lifecycle
   async created() {
     const accessToken = localStorage.getItem("accessToken");
-    const postId = this.$router.query.p_id;
-    // post ID need to be added TODO
-    console.log(postId);
+    const postId = this.$route.params.id;
+
     const config = {
       method: "get",
       url: `http://localhost:3000/posts/${postId}`,
