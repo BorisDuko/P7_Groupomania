@@ -22,8 +22,8 @@
         style="max-width: 24rem"
       >
         <div class="card-header">
-          Post № {{ post.p_id }} <br />
-          posted: {{ post.p_date_published }}
+          Post № {{ post.p_id }} by {{ post.u_username }} <br />
+          @{{ post.p_date_published }}
         </div>
         <div class="card-body">
           <h5 class="card-title">card title</h5>
