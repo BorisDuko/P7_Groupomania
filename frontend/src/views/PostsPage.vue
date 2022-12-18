@@ -1,11 +1,20 @@
 <template>
   <div class="container">
-    <h1>Posts Page</h1>
+    <!-- // single post button -->
+    <button @click="getOnePost">getOnePost function</button>
+    <h1>Posts Page.</h1>
+    <div class="user-info">
+      <h3>Logged in as {{ username }}</h3>
+      <button @click="logout" type="button" class="btn btn-light logout">
+        Logout
+      </button>
+    </div>
+
     <div v-if="errors" class="errors-container">{{ errors }}</div>
     <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
-    <button @click="logout" type="button" class="btn btn-light">Logout</button>
+
     <div
       v-for="post in posts"
       :key="post.p_id"
@@ -18,6 +27,12 @@
       <div class="card-body">
         <h5 class="card-title">card title</h5>
         <p class="card-text">post.p_text: {{ post.p_text }}</p>
+
+        <span
+          @click="fullPost(post.p_id)"
+          class="badge badge-pill badge-secondary"
+          >... more</span
+        >
       </div>
     </div>
   </div>
@@ -31,17 +46,19 @@ export default {
   data() {
     return {
       posts: [],
-      // p_id: "",
+      // p_id: "", // using it in getOnePost()
       // p_text: "",
       // p_date_published: "",
       // p_read_by_user: 0, // or false as default
       // r_user_id: "",
       errors: null,
+      username: "", // greet user that logged in
     };
   },
   // lifecycle hook created
   async created() {
     const accessToken = localStorage.getItem("accessToken");
+    this.username = localStorage.getItem("username"); // YAY!
     // console.log("Access Token:", accessToken);
     // const userId = localStorage.getItem("userId");
     // console.log("User Id:", userId);
@@ -91,8 +108,42 @@ export default {
       localStorage.clear();
       this.$router.push("/");
     },
+    async getOnePost() {
+      const accessToken = localStorage.getItem("accessToken");
+      const postId = this.p_id;
+      const config = {
+        method: "get",
+        url: `http://localhost:3000/posts/${postId}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      try {
+        const response = await axios(config);
+        // console.log(response);
+        console.log(response.data);
+        this.posts = response.data;
+        // console.log(posts);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fullPost(id) {
+      console.log(id);
+      this.$router.push(`/posts/${id}`);
+    },
   },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.badge {
+  cursor: pointer;
+}
+.user-info {
+  display: flex;
+}
+.logout {
+  margin-left: 36px;
+}
+</style>

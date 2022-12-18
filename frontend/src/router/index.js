@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import SignupPage from "../views/SignupPage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import PostsPage from "../views/PostsPage.vue";
+import PostOne from "../views/PostOne.vue";
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: "/posts",
     name: "Posts",
     component: PostsPage,
+  },
+  {
+    path: "/posts/:p_id",
+    name: "OnePost",
+    component: PostOne,
   },
 ];
 

@@ -29,7 +29,11 @@
             />
           </div>
 
-          <button @click.prevent="submitLogin" class="btn btn-primary">
+          <button
+            @click.prevent="submitLogin"
+            type="submit"
+            class="btn btn-primary"
+          >
             Login
           </button>
           <!-- <button type="submit" class="btn btn-primary">Login</button> -->
@@ -59,7 +63,7 @@ export default {
 
   methods: {
     async submitLogin() {
-      console.log(`Email: ${this.username}`);
+      console.log(`Username: ${this.username}`);
       console.log(`Password: ${this.password}`);
 
       try {
@@ -78,6 +82,7 @@ export default {
           // push values to local storage
           localStorage.setItem("accessToken", token);
           localStorage.setItem("userId", userId);
+          localStorage.setItem("username", this.username);
           // ------------------
 
           this.$router.push("/posts"); // redirect to allPosts page
