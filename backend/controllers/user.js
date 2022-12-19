@@ -44,8 +44,10 @@ exports.signup = async (req, res, next) => {
            VALUES (?,?,?)`,
         [front_u_username, front_u_email, front_hashed_u_pwd]
       );
-      console.log(`${front_u_username} added successfully`);
-      res.status(201).send(`${front_u_username} added successfully`);
+      console.log(`${front_u_username} created successfully`);
+      res
+        .status(201)
+        .send(`${front_u_username} created successfully`);
     }
   } catch (error) {
     res.status(400).send(`something went wrong: ${error}`);
@@ -96,7 +98,10 @@ exports.login = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   let u_id = req.params.id;
   try {
-    await connection.query(`DELETE FROM user_table WHERE u_id=?`, u_id);
+    await connection.query(
+      `DELETE FROM user_table WHERE u_id=?`,
+      u_id
+    );
     console.log("User DELETED");
     res.status(200).send("User Deleted");
   } catch (error) {

@@ -4,7 +4,7 @@
     <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
-    <form>
+    <form class="new-post-form">
       <div class="form-group">
         <textarea
           v-model="this.p_text"
@@ -67,7 +67,8 @@ export default {
       errors: null,
       username: "", // greet user that logged in
       p_text: "",
-      userId: "",
+      p_image_url: "", // if image
+      userId: "", // to pass for new post creation
       // p_id: "", //
       // p_text: "",
       // p_date_published: "",
@@ -103,29 +104,35 @@ export default {
   },
   methods: {
     async addNewPost() {
+      this.userId = localStorage.getItem("userId");
+      console.log(this.userId);
       console.log(this.p_text);
-      this.p_text = "";
+
       // const accessToken = localStorage.getItem("accessToken");
-      // const config = {
-      //   method: "post",
-      //   url: "http://localhost:3000/posts",
-      //   data: {
-      //     p_author_id: "",
-      //     p_text: "",
-      //   },
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // };
-      // try {
-      //   const response = await axios(config);
-      //   // console.log(response);
-      //   console.log(response.data);
-      //   this.posts = response.data;
-      //   // console.log(posts);
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      const config = {
+        method: "post",
+        url: "http://localhost:3000/posts",
+        data: {
+          p_author_id: this.userId,
+          p_text: this.p_text,
+          p_image_url: this.p_image_url,
+        },
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      try {
+        const response = await axios(config);
+        // console.log(response);
+        console.log(response.data);
+        // this.posts = response.data;
+        // console.log(posts);
+        // to reset input form to blank --- bottom ---
+        this.p_text = "";
+        location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     },
     async refreshPostsButton() {
       const accessToken = localStorage.getItem("accessToken");
@@ -192,5 +199,8 @@ form {
   margin-left: auto;
   margin-right: 0;
   margin-top: 16px;
+}
+textarea.form-control {
+  height: 45px;
 }
 </style>
