@@ -7,6 +7,7 @@
       <div class="col-md-6">
         <form>
           <div class="form-group">
+            <div v-if="error" class="error-handle">{{ error }}</div>
             <label for="exampleInputEmail1">Username</label>
             <input
               type="text"
@@ -44,7 +45,7 @@
           <button
             @click.prevent="submitSignup"
             class="btn btn-primary"
-            type="button"
+            type="submit"
           >
             Signup
           </button>
@@ -70,7 +71,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "SignupPage",
@@ -79,13 +80,33 @@ export default {
       username: "",
       email: "",
       password: "",
+      error: "",
     };
   },
   methods: {
-    submitSignup() {
+    async submitSignup() {
       console.log(`Username: ${this.username}`);
       console.log(`Email: ${this.email}`);
       console.log(`Password: ${this.password}`);
+
+      try {
+        const response = await axios.post("http://localhost:3000/auth/signup", {
+          u_username: this.username,
+          u_email: this.email,
+          u_pwd: this.password,
+        });
+        console.log(response);
+        const resStatus = response.request.status; // 201
+        if (resStatus === 201) {
+          alert(response.data);
+          console.log("User created successfully!");
+          // this.$router.push("/auth/login"); // redirect to login page
+        } else {
+          this.error = response.data;
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     goBack() {
       this.$router.push(`/auth/login`);
