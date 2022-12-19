@@ -38,8 +38,19 @@
         style="max-width: 24rem"
       >
         <div class="card-header">
-          Post № {{ post.p_id }} by {{ post.u_username }} <br />
-          @{{ properDateFormat(post.p_date_published) }}
+          <div>
+            <p>
+              Post № {{ post.p_id }} by {{ post.u_username }} <br />@{{
+                properDateFormat(post.p_date_published)
+              }}
+            </p>
+            <p></p>
+          </div>
+          <div>
+            <span class="post-read" v-if="post.p_readby_user === 1"
+              >✔(read)</span
+            >
+          </div>
         </div>
         <div class="card-body">
           <p class="card-text">{{ post.p_text }}</p>
@@ -68,6 +79,8 @@ export default {
       p_text: "",
       p_image_url: "", // if image
       userId: "", // to pass for new post creation
+      isReadByUser: false,
+      p_read_by_user: "",
       // p_id: "", //
       // p_text: "",
       // p_date_published: "",
@@ -77,8 +90,8 @@ export default {
   },
   // lifecycle hook created
   async created() {
-    const accessToken = localStorage.getItem("accessToken");
     this.username = localStorage.getItem("username"); // YAY!
+    const accessToken = localStorage.getItem("accessToken");
     // console.log("Access Token:", accessToken);
     // const userId = localStorage.getItem("userId");
     // console.log("User Id:", userId);
@@ -102,6 +115,7 @@ export default {
     }
   },
   methods: {
+    // ADD NEW POST
     async addNewPost() {
       this.userId = localStorage.getItem("userId");
       console.log(this.userId);
@@ -131,11 +145,9 @@ export default {
         console.log(error);
       }
     },
+    // REFRESH BUTTON
     async refreshPostsButton() {
       const accessToken = localStorage.getItem("accessToken");
-      // console.log("Access Token:", accessToken);
-      // const userId = localStorage.getItem("userId");
-      // console.log("User Id:", userId);
       const config = {
         method: "get",
         url: "http://localhost:3000/posts/",
@@ -153,14 +165,19 @@ export default {
         console.log(error);
       }
     },
+    // LOGOUT BUTTON
     logout() {
       localStorage.clear();
       this.$router.push("/");
     },
-
+    // OPEN ONE POST PAGE
     async seeFullPost(id) {
       console.log(id);
       this.$router.push(`/posts/${id}`);
+    },
+    // IF POST READ BY USER (conditional rendering)
+    doRead() {
+      this.isReadByUser = this.p_read_by_user;
     },
     properDateFormat(date) {
       return date.split(".")[0].split("T").reverse().join(" ");
@@ -181,6 +198,10 @@ export default {
 }
 div.card {
   width: 350px;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
 }
 p.card-text {
   white-space: nowrap;

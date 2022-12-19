@@ -52,8 +52,8 @@ exports.getOnePost = async (req, res, next) => {
       [p_id]
     );
 
-    console.log("readTable:", readTable);
-    console.log("post:", post);
+    // console.log("readTable:", readTable);
+    // console.log("post:", post);
     res.status(200).send(post);
   } catch (error) {
     console.log(error);
