@@ -25,9 +25,25 @@ exports.getAllPosts = async (req, res, next) => {
 
 // GET ONE POST
 exports.getOnePost = async (req, res, next) => {
-  let p_id = req.params.id;
+  const p_id = req.params.id;
+  const userId = req.auth.userId;
 
   try {
+    const [readTable] = await connection.query(
+      `SELECT * FROM read_table 
+      WHERE r_user_id = ? AND r_post_id = ?;`,
+      [userId, p_id]
+    );
+    // check if user already read post - 0=negative
+    if (readTable.length === 0) {
+      // add user to read_table
+      await connection.query(
+        `INSERT INTO read_table  
+        ( r_user_id, r_post_id) VALUES ( ?, ?);`,
+        [userId, p_id]
+      );
+    }
+
     const [post] = await connection.query(
       `SELECT  p.*, u.*
       FROM post_table p
@@ -35,6 +51,9 @@ exports.getOnePost = async (req, res, next) => {
       WHERE p.p_id = ?`,
       [p_id]
     );
+
+    console.log("readTable:", readTable);
+    console.log("post:", post);
     res.status(200).send(post);
   } catch (error) {
     console.log(error);
