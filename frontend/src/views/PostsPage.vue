@@ -107,7 +107,7 @@ export default {
       console.log(this.userId);
       console.log(this.p_text);
 
-      // const accessToken = localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("accessToken");
       const config = {
         method: "post",
         url: "http://localhost:3000/posts",
@@ -117,7 +117,7 @@ export default {
           p_image_url: this.p_image_url,
         },
         headers: {
-          // Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       };
       try {

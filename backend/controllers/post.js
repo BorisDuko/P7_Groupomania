@@ -43,9 +43,9 @@ exports.getOnePost = async (req, res, next) => {
 };
 // CREATE POST
 exports.createOnePost = async (req, res, next) => {
-  let front_p_author_id = req.body.p_author_id;
-  let front_p_text = req.body.p_text;
-  let front_p_image_url = req.body.p_image_url;
+  const front_p_author_id = req.body.p_author_id;
+  const front_p_text = req.body.p_text;
+  const front_p_image_url = req.body.p_image_url;
   try {
     // const result =
     await connection.query(
@@ -56,7 +56,7 @@ exports.createOnePost = async (req, res, next) => {
     `,
       [front_p_author_id, front_p_text, front_p_image_url]
     );
-    res.status(201).send("Post created");
+    res.status(201).send("Post created successfully!");
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
