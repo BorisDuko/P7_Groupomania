@@ -42,8 +42,7 @@
           @{{ properDateFormat(post.p_date_published) }}
         </div>
         <div class="card-body">
-          <h5 class="card-title">card title</h5>
-          <p class="card-text">(Post text): {{ post.p_text }}</p>
+          <p class="card-text">{{ post.p_text }}</p>
 
           <span
             @click="seeFullPost(post.p_id)"
@@ -122,13 +121,11 @@ export default {
         },
       };
       try {
-        const response = await axios(config);
-        // console.log(response);
-        console.log(response.data);
-        // this.posts = response.data;
-        // console.log(posts);
-        // to reset input form to blank --- bottom ---
+        await axios(config);
+        // console.log(response.data);
+        // to reset input form to blank
         this.p_text = "";
+        // refresh page to update with post
         location.reload();
       } catch (error) {
         console.log(error);
