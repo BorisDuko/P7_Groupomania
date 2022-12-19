@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         post ID: {{ post.p_id }} by {{ post.u_username }} <br />
-        @:{{ post.p_date_published }}
+        @{{ properDateFormat }}
       </div>
       <div class="card-body">
         <h5 class="card-title">title (if needed)</h5>
@@ -38,7 +38,8 @@ export default {
 
     const config = {
       method: "get",
-      url: `http://localhost:3000/posts/${postId}`,
+      url: "http://localhost:3000/posts/", // or `${postId}`
+      params: { id: postId },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -51,6 +52,11 @@ export default {
   methods: {
     async goBack() {
       this.$router.push(`/posts`);
+    },
+  },
+  computed: {
+    properDateFormat() {
+      return this.post.p_date_published.split(".")[0].split("T").join(" ");
     },
   },
 };

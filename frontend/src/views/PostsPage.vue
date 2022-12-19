@@ -23,7 +23,7 @@
       >
         <div class="card-header">
           Post № {{ post.p_id }} by {{ post.u_username }} <br />
-          @{{ post.p_date_published }}
+          @{{ properDateFormat(post.p_date_published) }}
         </div>
         <div class="card-body">
           <h5 class="card-title">card title</h5>
@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       posts: [],
+
       // p_id: "", // using it in getOnePost()
       // p_text: "",
       // p_date_published: "",
@@ -133,6 +134,9 @@ export default {
     async seeFullPost(id) {
       console.log(id);
       this.$router.push(`/posts/${id}`);
+    },
+    properDateFormat(date) {
+      return date.split(".")[0].split("T").reverse().join(" ");
     },
   },
 };
