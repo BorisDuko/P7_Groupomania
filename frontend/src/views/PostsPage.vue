@@ -170,11 +170,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  max-width: 600px;
+}
 .posts-container {
   margin: 0 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+div.card {
+  width: 350px;
+}
+p.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // max-width: 200px;
 }
 .badge {
   cursor: pointer;
