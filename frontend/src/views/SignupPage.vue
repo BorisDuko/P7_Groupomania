@@ -40,16 +40,6 @@
               required
             />
           </div>
-          <div
-            v-if="password.length > 0 && password.length < 6"
-            class="text-danger"
-          >
-            Password requirements: <br />
-            >at least 6 characters long<br />
-            >minimum 2 numbers <br />
-            >include Uppercase <br />
-            >NO spaces
-          </div>
 
           <button
             @click.prevent="submitSignup"
@@ -61,6 +51,16 @@
           <button @click="goBack" class="btn btn-outline-primary">
             Cancel
           </button>
+          <div
+            v-if="password.length > 0 && password.length < 6"
+            class="text-danger"
+          >
+            Password requirements: <br />
+            >at least 6 characters long<br />
+            >minimum 2 numbers <br />
+            >include Uppercase <br />
+            >NO spaces
+          </div>
         </form>
       </div>
       <!-- positioning right -->

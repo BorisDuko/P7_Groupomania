@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         post ID: {{ post.p_id }} by {{ post.u_username }} <br />
-        @{{ properDateFormat }}
+        @{{ this.post.p_date_published }}
       </div>
       <div class="card-body">
         <h5 class="card-title">title (if needed)</h5>
@@ -30,7 +30,6 @@ export default {
       post: "",
     };
   },
-
   // lifecycle
   async created() {
     const accessToken = localStorage.getItem("accessToken");
@@ -38,8 +37,7 @@ export default {
 
     const config = {
       method: "get",
-      url: "http://localhost:3000/posts/", // or `${postId}`
-      params: { id: postId },
+      url: `http://localhost:3000/posts/${postId}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -48,18 +46,18 @@ export default {
     const response = await axios(config);
     console.log(response.data);
     this.post = response.data[0];
+    // if used in methods - can't read undefined
+    this.post.p_date_published = this.post.p_date_published
+      .split(".")[0]
+      .split("T")
+      .join(" ");
   },
   methods: {
     async goBack() {
       this.$router.push(`/posts`);
     },
   },
-  computed: {
-    properDateFormat() {
-      return this.post.p_date_published.split(".")[0].split("T").join(" ");
-    },
-  },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

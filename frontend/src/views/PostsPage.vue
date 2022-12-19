@@ -1,11 +1,27 @@
 <template>
   <div class="container">
-    <!-- // single post button -->
-    <button @click="getOnePost">getOnePost function</button>
     <h1>Posts Page</h1>
     <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
+    <form>
+      <div class="form-group">
+        <textarea
+          v-model="this.p_text"
+          placeholder="Write new post"
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+        ></textarea>
+        <button
+          @click="addNewPost"
+          type="button"
+          class="btn btn-secondary new-post-btn"
+        >
+          Post it
+        </button>
+      </div>
+    </form>
     <div class="user-info">
       <h4>Hello {{ username }}</h4>
       <button @click="logout" type="button" class="btn btn-light logout">
@@ -48,14 +64,14 @@ export default {
   data() {
     return {
       posts: [],
-
-      // p_id: "", // using it in getOnePost()
+      // p_id: "", //
       // p_text: "",
       // p_date_published: "",
       // p_read_by_user: 0, // or false as default
       // r_user_id: "",
       errors: null,
       username: "", // greet user that logged in
+      p_text: "",
     };
   },
   // lifecycle hook created
@@ -85,6 +101,31 @@ export default {
     }
   },
   methods: {
+    async addNewPost() {
+      console.log(this.p_text);
+      this.p_text = "";
+      // const accessToken = localStorage.getItem("accessToken");
+      // const config = {
+      //   method: "post",
+      //   url: "http://localhost:3000/posts",
+      //   data: {
+      //     p_author_id: "",
+      //     p_text: "",
+      //   },
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // };
+      // try {
+      //   const response = await axios(config);
+      //   // console.log(response);
+      //   console.log(response.data);
+      //   this.posts = response.data;
+      //   // console.log(posts);
+      // } catch (error) {
+      //   console.log(error);
+      // }
+    },
     async refreshPostsButton() {
       const accessToken = localStorage.getItem("accessToken");
       // console.log("Access Token:", accessToken);
@@ -111,26 +152,7 @@ export default {
       localStorage.clear();
       this.$router.push("/");
     },
-    async getOnePost() {
-      const accessToken = localStorage.getItem("accessToken");
-      const postId = this.p_id;
-      const config = {
-        method: "get",
-        url: `http://localhost:3000/posts/${postId}`,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      try {
-        const response = await axios(config);
-        // console.log(response);
-        console.log(response.data);
-        this.posts = response.data;
-        // console.log(posts);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+
     async seeFullPost(id) {
       console.log(id);
       this.$router.push(`/posts/${id}`);
@@ -160,5 +182,14 @@ export default {
 }
 .logout {
   margin-left: 20px;
+}
+form {
+  margin-top: 16px;
+}
+.new-post-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+  margin-top: 16px;
 }
 </style>
