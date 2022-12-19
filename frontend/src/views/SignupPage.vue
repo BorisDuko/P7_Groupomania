@@ -100,7 +100,7 @@ export default {
         if (resStatus === 201) {
           alert(response.data);
           console.log("User created successfully!");
-          // this.$router.push("/auth/login"); // redirect to login page
+          this.$router.push("/auth/login"); // redirect to login page
         } else {
           this.error = response.data;
         }

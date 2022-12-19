@@ -64,14 +64,15 @@ export default {
   data() {
     return {
       posts: [],
+      errors: null,
+      username: "", // greet user that logged in
+      p_text: "",
+      userId: "",
       // p_id: "", //
       // p_text: "",
       // p_date_published: "",
       // p_read_by_user: 0, // or false as default
       // r_user_id: "",
-      errors: null,
-      username: "", // greet user that logged in
-      p_text: "",
     };
   },
   // lifecycle hook created
