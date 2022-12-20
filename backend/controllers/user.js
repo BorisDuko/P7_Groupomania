@@ -96,11 +96,12 @@ exports.login = async (req, res, next) => {
 
 // DELETE USER
 exports.deleteUser = async (req, res, next) => {
-  let u_id = req.params.id;
+  const u_id = req.params.id;
   try {
     await connection.query(
-      `DELETE FROM user_table WHERE u_id=?`,
-      u_id
+      `DELETE FROM user_table 
+       WHERE u_id=?`,
+      [u_id]
     );
     console.log("User DELETED");
     res.status(200).send("User Deleted");

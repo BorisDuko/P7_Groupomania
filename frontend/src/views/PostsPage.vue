@@ -4,6 +4,9 @@
     <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
+    <button @click="deleteAccount" class="delete-account">
+      Delete Account
+    </button>
     <form enctype="multipart/form-data" class="new-post-form">
       <div class="form-group">
         <!-- image input  -->
@@ -172,6 +175,23 @@ export default {
     logout() {
       localStorage.clear();
       this.$router.push("/");
+    },
+    // DELETE ACCOUNT BUTTON
+    async deleteAccount() {
+      if (
+        confirm(
+          "❗❗❗ Do you want to delete the account❓❓❓ \n OK - Continue \n Cancel - Return "
+        )
+      ) {
+        const userId = localStorage.getItem("userId");
+        console.log(userId);
+        console.log("acc to delete logic");
+        await axios.delete(`http://localhost:3000/auth/delete/${userId}`);
+        localStorage.clear();
+        this.$router.replace("/");
+      } else {
+        console.log("acc didn't get deleted");
+      }
     },
     // OPEN ONE POST PAGE
     async seeFullPost(id) {
