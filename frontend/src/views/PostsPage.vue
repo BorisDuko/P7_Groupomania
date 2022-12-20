@@ -7,29 +7,24 @@
     <button @click="deleteAccount" class="btn btn-light delete-account-btn">
       Delete Account
     </button>
-    <form enctype="multipart/form-data" class="new-post-form">
-      <div class="form-group">
-        <!-- image input  -->
-        <!-- <input type="file" /> -->
-        <!-- image input  -->
-        <textarea
-          v-model="this.p_text"
-          placeholder="Write new post"
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="3"
-        ></textarea>
-        <input type="file" class="form-control-file" />
-        <!-- @click="addNewPost" --for the button ⤵ -->
-        <button
-          @click="addNewPost"
-          type="submit"
-          class="btn btn-secondary new-post-btn"
-        >
-          Post it
-        </button>
-      </div>
-    </form>
+    <!-- form was here  -->
+    <div class="file-form-container">
+      <input type="file" @change="onFileSelected" />
+      <button @click="eventSubmit">event submit</button>
+      <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+        <div class="fields">
+          <label>Upload File</label> <br />
+          <input type="file" ref="file" @change="onSelect" />
+        </div>
+        <div class="fields">
+          <button>Submit</button>
+        </div>
+        <div class="submit-message">
+          <h5>{{ submitMessage }}</h5>
+        </div>
+      </form>
+    </div>
+    <!-- form was here  -->
     <div class="user-info">
       <h4>Hello {{ username }}</h4>
       <button @click="logout" type="button" class="btn btn-light logout">
@@ -87,6 +82,9 @@ export default {
       userId: "", // to pass for new post creation
       isReadByUser: false,
       p_read_by_user: "",
+      file: "", // for image posting
+      selectedFile: null,
+      submitMessage: "",
       // p_id: "", //
       // p_text: "",
       // p_date_published: "",
@@ -121,6 +119,68 @@ export default {
     }
   },
   methods: {
+    // ----------------
+    // testing submit image form
+    onFileSelected(e) {
+      this.selectedFile = e.target.files[0];
+      console.log("selected file:", this.selectedFile);
+    },
+    eventSubmit() {
+      const fd = new FormData();
+      fd.append("image", this.selectedFile, this.selectedFile.name);
+    },
+
+    onSelect() {
+      const file = this.$refs.file.files[0];
+      this.file = file;
+
+      // const allowedTypes = [
+      //   "image/jpeg",
+      //   "image/jpeg",
+      //   "image/png",
+      //   "image/gif",
+      // ];
+
+      // if (!allowedTypes.includes(file.type)) {
+      //   this.submitMessage = "Only images are required 🎆";
+      // }
+    },
+    async onSubmit() {
+      // const accessToken = localStorage.getItem("accessToken");
+      this.userId = localStorage.getItem("userId");
+      const formData = new FormData();
+      formData.append("image", this.file);
+      // const headers = {
+      //   "Content-Type": "multipart/form-data",
+      //   Authorization: `Bearer ${accessToken}`,
+      // };
+
+      const accessToken = localStorage.getItem("accessToken");
+      const config = {
+        method: "post",
+        url: "http://localhost:3000/posts",
+        formData,
+        data: {
+          p_author_id: this.userId,
+          p_text: this.p_text,
+          p_image_url: this.p_image_url,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      try {
+        const res = await axios(config);
+        console.log("response:", res);
+        // await axios(config);
+        // this.submitMessage = "Uploaded!!! 😊";
+      } catch (error) {
+        console.log(error);
+        this.submitMessage = "Something went wrong 💩";
+      }
+    },
+    // ----------------
     // ADD NEW POST
     async addNewPost() {
       this.userId = localStorage.getItem("userId");
