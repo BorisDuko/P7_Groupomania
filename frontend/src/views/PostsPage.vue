@@ -4,7 +4,7 @@
     <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
-    <button @click="deleteAccount" class="delete-account">
+    <button @click="deleteAccount" class="btn btn-light delete-account-btn">
       Delete Account
     </button>
     <form enctype="multipart/form-data" class="new-post-form">
@@ -255,5 +255,10 @@ form {
 }
 textarea.form-control {
   height: 45px;
+}
+.delete-account-btn {
+  position: absolute;
+  top: 70px;
+  right: 0px;
 }
 </style>
