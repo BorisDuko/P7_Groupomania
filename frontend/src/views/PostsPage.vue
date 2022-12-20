@@ -4,8 +4,11 @@
     <button @click="refreshPostsButton" type="button" class="btn btn-dark">
       Refresh
     </button>
-    <form class="new-post-form">
+    <form enctype="multipart/form-data" class="new-post-form">
       <div class="form-group">
+        <!-- image input  -->
+        <!-- <input type="file" /> -->
+        <!-- image input  -->
         <textarea
           v-model="this.p_text"
           placeholder="Write new post"
@@ -13,9 +16,11 @@
           id="exampleFormControlTextarea1"
           rows="3"
         ></textarea>
+        <input type="file" class="form-control-file" />
+        <!-- @click="addNewPost" --for the button ⤵ -->
         <button
           @click="addNewPost"
-          type="button"
+          type="submit"
           class="btn btn-secondary new-post-btn"
         >
           Post it
@@ -47,9 +52,7 @@
             <p></p>
           </div>
           <div>
-            <span class="post-read" v-if="post.p_readby_user === 1"
-              >✔(read)</span
-            >
+            <span class="post-read" v-if="post.p_readby_user">✔(read)</span>
           </div>
         </div>
         <div class="card-body">
@@ -107,7 +110,7 @@ export default {
       // console.log(response);
       console.log(response.data);
       this.posts = response.data;
-      // this.errors = "error msg"; // if err - will appear
+      // this.errors = "error msg"; // if err - will appear #TODO change name to errorMessages
       // console.log(posts);
     } catch (error) {
       console.log(error);

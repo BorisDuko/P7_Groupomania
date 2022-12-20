@@ -3,8 +3,7 @@ const connection = require("../config/database");
 // ALL POSTS read/or not by user descending
 exports.getAllPosts = async (req, res, next) => {
   const userId = req.auth.userId;
-  // let userId = 35;
-  // console.log(req.auth);
+
   try {
     const [posts] = await connection.query(
       `SELECT p.* , u.*,  r.r_user_id , 
@@ -84,7 +83,7 @@ exports.createOnePost = async (req, res, next) => {
 
 // ------------------------------
 // optional /
-// DELETE POST - must also clear the read_table and the images in the file system
+// DELETE POST
 exports.deletePost = (req, res, next) => {
   let post_id = req.params.id;
 
