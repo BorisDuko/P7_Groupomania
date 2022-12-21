@@ -12,8 +12,10 @@ const connection = mysql
 
 async function connectionToDatabase() {
   try {
-    await connection.connect;
-    console.log("Successfully connected to db_p7_duko");
+    const res = await connection.connect;
+    if (res) {
+      console.log("Successfully connected to db_p7_duko");
+    }
   } catch (error) {
     throw error;
   }

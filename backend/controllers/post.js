@@ -63,15 +63,15 @@ exports.getOnePost = async (req, res, next) => {
 exports.createOnePost = async (req, res, next) => {
   const front_p_author_id = req.body.p_author_id;
   const front_p_text = req.body.p_text;
-  const front_p_image_url = req.body.p_image_url;
+  const url = req.protocol + "://" + req.get("host");
+  const front_p_image_url = url + "/images/" + req.file;
+  console.log("req.body", req.body);
+
   try {
-    // const result =
     await connection.query(
-      `
-    INSERT INTO
-    post_table (p_author_id, p_text, p_image_url)
-    VALUES (?, ?, ?)
-    `,
+      `INSERT INTO
+       post_table (p_author_id, p_text, p_image_url)
+       VALUES (?, ?, ?)`,
       [front_p_author_id, front_p_text, front_p_image_url]
     );
     res.status(201).send("Post created successfully!");
