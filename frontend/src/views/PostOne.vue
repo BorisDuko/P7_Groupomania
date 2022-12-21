@@ -9,6 +9,8 @@
         <p class="card-text">text from post: {{ post.p_text }}</p>
         <div v-if="post.p_image_url" class="image-div">
           <p>Here will be image if there is one: {{ post.p_image_url }}</p>
+          <!-- <a href="{{imgUrl}}"> -->
+          <img :src="post.p_image_url" alt="" />
         </div>
         <a @click="goBack" class="btn btn-secondary">Go back</a>
       </div>
@@ -56,4 +58,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+img {
+  max-width: 450px;
+}
+</style>
