@@ -62,23 +62,28 @@ exports.getOnePost = async (req, res, next) => {
 };
 // CREATE POST
 exports.createOnePost = async (req, res, next) => {
-  // var to escape scoped variables inside if
+  // declare to escape scoped variables inside if
+  let inComingData;
+  let front_p_author_id;
+  let front_p_text;
+  let url;
+  let front_p_image_url;
+
   if (req.file) {
     console.log("YES file");
-    var inComingData = JSON.parse(req.body.otherFields);
-    var front_p_author_id = inComingData.p_author_id;
-    var front_p_text = inComingData.p_text;
-    var url = req.protocol + "://" + req.get("host");
-    var front_p_image_url = url + "/images/" + req.file.filename;
+    inComingData = JSON.parse(req.body.otherFields);
+    front_p_author_id = inComingData.p_author_id;
+    front_p_text = inComingData.p_text;
+    url = req.protocol + "://" + req.get("host");
+    front_p_image_url = url + "/images/" + req.file.filename;
     console.log(req.file);
   } else {
     console.log("NO file");
-    var inComingData = JSON.parse(req.body.otherFields);
-    var front_p_author_id = inComingData.p_author_id;
-    var front_p_text = inComingData.p_text;
-    var p_image_url = null;
+    inComingData = JSON.parse(req.body.otherFields);
+    front_p_author_id = inComingData.p_author_id;
+    front_p_text = inComingData.p_text;
+    p_image_url = null;
   }
-
   try {
     await connection.query(
       `INSERT INTO
