@@ -62,11 +62,22 @@ exports.getOnePost = async (req, res, next) => {
 };
 // CREATE POST
 exports.createOnePost = async (req, res, next) => {
-  let inComingData = JSON.parse(req.body.otherFields);
-  const front_p_author_id = inComingData.p_author_id;
-  const front_p_text = inComingData.p_text;
-  const url = req.protocol + "://" + req.get("host");
-  const front_p_image_url = url + "/images/" + req.file.filename;
+  // var to escape scoped variables inside if
+  if (req.file) {
+    console.log("YES file");
+    var inComingData = JSON.parse(req.body.otherFields);
+    var front_p_author_id = inComingData.p_author_id;
+    var front_p_text = inComingData.p_text;
+    var url = req.protocol + "://" + req.get("host");
+    var front_p_image_url = url + "/images/" + req.file.filename;
+    console.log(req.file);
+  } else {
+    console.log("NO file");
+    var inComingData = JSON.parse(req.body.otherFields);
+    var front_p_author_id = inComingData.p_author_id;
+    var front_p_text = inComingData.p_text;
+    var p_image_url = null;
+  }
 
   try {
     await connection.query(

@@ -30,8 +30,6 @@
             name="imgFile"
             class="form-control-file"
           />
-          <!-- image input  -->
-          <!-- @click="addNewPost" --for the button ⤵ -->
           <button type="submit" class="btn btn-secondary new-post-btn">
             Post it
           </button>
@@ -134,28 +132,27 @@ export default {
     }
   },
   methods: {
-    // ----------------
-    // testing submit image form
+    // CHOSE IMAGE
     onSelect() {
       this.chosenFile = this.$refs.filePicker.files[0];
       console.log(this.chosenFile);
-      // const allowedTypes = [
-      //   "image/jpeg",
-      //   "image/jpeg",
-      //   "image/png",
-      //   "image/gif",
-      // ];
-      // if (!allowedTypes.includes(file.type)) {
-      //   this.submitMessage = "Only images are required";
-      // }
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+      ];
+      if (!allowedTypes.includes(this.chosenFile.type)) {
+        this.submitMessage = "Only images are required";
+      }
     },
+    // ADD NEW POST
     async onSubmit() {
       const accessToken = localStorage.getItem("accessToken");
       this.userId = localStorage.getItem("userId");
       const formData = new FormData();
       // append the image as a file
       formData.append("imgFile", this.chosenFile);
-
       // Create the dataset
       const data = {
         p_author_id: this.userId,
@@ -163,11 +160,9 @@ export default {
       };
       // append the dataset as json
       formData.append("otherFields", JSON.stringify(data));
-
       const config = {
         method: "post",
         url: "http://localhost:3000/posts",
-
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data",
@@ -177,7 +172,6 @@ export default {
       try {
         const res = await axios(config);
         console.log("response:", res);
-        // await axios(config);
         this.submitMessage = "Posted!!! 😊";
         // data: {
         //   p_author_id: this.userId,
@@ -187,37 +181,6 @@ export default {
       } catch (error) {
         console.log(error);
         this.submitMessage = "Something went wrong 💩";
-      }
-    },
-    // ----------------
-    // ADD NEW POST
-    async addNewPost() {
-      this.userId = localStorage.getItem("userId");
-      console.log(this.userId);
-      console.log(this.p_text);
-
-      const accessToken = localStorage.getItem("accessToken");
-      const config = {
-        method: "post",
-        url: "http://localhost:3000/posts",
-        data: {
-          p_author_id: this.userId,
-          p_text: this.p_text,
-          p_image_url: this.p_image_url,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      try {
-        await axios(config);
-        // console.log(response.data);
-        // to reset input form to blank
-        this.p_text = "";
-        // refresh page to update with post
-        location.reload();
-      } catch (error) {
-        console.log(error);
       }
     },
     // REFRESH BUTTON
