@@ -1,4 +1,5 @@
 const connection = require("../config/database");
+const fs = require("fs");
 
 // ALL POSTS read/or not by user descending
 exports.getAllPosts = async (req, res, next) => {
@@ -61,11 +62,11 @@ exports.getOnePost = async (req, res, next) => {
 };
 // CREATE POST
 exports.createOnePost = async (req, res, next) => {
-  const front_p_author_id = req.body.p_author_id;
-  const front_p_text = req.body.p_text;
+  let inComingData = JSON.parse(req.body.otherFields);
+  const front_p_author_id = inComingData.p_author_id;
+  const front_p_text = inComingData.p_text;
   const url = req.protocol + "://" + req.get("host");
-  const front_p_image_url = url + "/images/" + req.file;
-  console.log("req.body", req.body);
+  const front_p_image_url = url + "/images/" + req.file.filename;
 
   try {
     await connection.query(

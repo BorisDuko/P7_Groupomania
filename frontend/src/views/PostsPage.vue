@@ -7,28 +7,41 @@
     <button @click="deleteAccount" class="btn btn-light delete-account-btn">
       Delete Account
     </button>
-    <!-- form was here  -->
+    <!-- form here  -->
     <div class="file-form-container">
-      <form @submit.prevent="onSubmit" enctype="multipart/form-data">
-        <textarea
-          v-model="this.p_text"
-          placeholder="Write a new post"
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="3"
-        ></textarea>
-        <div class="fields">
-          <input type="file" ref="filePicker" @change="onSelect" />
-        </div>
-        <div class="fields">
-          <button class="btn btn-secondary new-post-btn">Post it</button>
-        </div>
-        <div class="submit-message">
-          <h5>{{ submitMessage }}</h5>
+      <form
+        @submit.prevent="onSubmit"
+        enctype="multipart/form-data"
+        class="new-post-form"
+      >
+        <div class="form-group file-form">
+          <textarea
+            v-model="this.p_text"
+            placeholder="Write a new post"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+          ></textarea>
+          <!-- image input  -->
+          <input
+            @change="onSelect"
+            type="file"
+            ref="filePicker"
+            name="imgFile"
+            class="form-control-file"
+          />
+          <!-- image input  -->
+          <!-- @click="addNewPost" --for the button ⤵ -->
+          <button type="submit" class="btn btn-secondary new-post-btn">
+            Post it
+          </button>
+          <div class="submit-err-msg">
+            <h5>{{ submitMessage }}</h5>
+          </div>
         </div>
       </form>
     </div>
-    <!-- form was here  -->
+    <!-- form here  -->
     <div class="user-info">
       <h4>Hello {{ username }}</h4>
       <button @click="logout" type="button" class="btn btn-light logout">
@@ -87,15 +100,11 @@ export default {
       isReadByUser: false,
       p_read_by_user: "",
       chosenFile: {}, // for image posting
-
+      file: "",
       submitMessage: "",
       p_author_id: "",
 
-      // p_id: "", //
-      // p_text: "",
-      // p_date_published: "",
-      // p_read_by_user: 0, // or false as default
-      // r_user_id: "",
+      images: null,
     };
   },
   // lifecycle hook created
@@ -128,17 +137,14 @@ export default {
     // ----------------
     // testing submit image form
     onSelect() {
-      // console.log("filePicker:", this.$refs.filePicker.files[0]);
       this.chosenFile = this.$refs.filePicker.files[0];
       console.log(this.chosenFile);
-
       // const allowedTypes = [
       //   "image/jpeg",
       //   "image/jpeg",
       //   "image/png",
       //   "image/gif",
       // ];
-
       // if (!allowedTypes.includes(file.type)) {
       //   this.submitMessage = "Only images are required";
       // }
@@ -148,20 +154,20 @@ export default {
       this.userId = localStorage.getItem("userId");
       const formData = new FormData();
       // append the image as a file
-      formData.append("chosenFile", this.chosenFile);
+      formData.append("imgFile", this.chosenFile);
+
       // Create the dataset
       const data = {
         p_author_id: this.userId,
         p_text: this.p_text,
-        p_image_url: this.p_image_url,
       };
-      console.log("data payload:", data);
       // append the dataset as json
       formData.append("otherFields", JSON.stringify(data));
 
       const config = {
         method: "post",
         url: "http://localhost:3000/posts",
+
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data",
@@ -172,7 +178,7 @@ export default {
         const res = await axios(config);
         console.log("response:", res);
         // await axios(config);
-        this.submitMessage = "Uploaded!!! 😊";
+        this.submitMessage = "Posted!!! 😊";
         // data: {
         //   p_author_id: this.userId,
         //   p_text: this.p_text,
