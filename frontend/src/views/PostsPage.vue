@@ -128,7 +128,6 @@ export default {
       console.log(response.data);
       this.posts = response.data;
       // this.errors = "error msg"; // if err - will appear #TODO change name to errorMessages
-      // console.log(posts);
     } catch (error) {
       console.log(error);
       this.errors = error; //  error handling
@@ -180,6 +179,7 @@ export default {
         setTimeout(() => {
           this.refreshPostsButton();
           this.submitMessage = "";
+          this.p_text = "";
         }, 1000);
       } catch (error) {
         console.log(error);
