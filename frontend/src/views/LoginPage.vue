@@ -77,25 +77,30 @@ export default {
           u_username: this.username,
           u_pwd: this.password,
         });
-        console.log(response);
-        const resStatus = response.request.status; // 200
+        console.log(response.data);
+        // const resStatus = response.request.status; // 200/
         // if login successful
-        if (resStatus === 200) {
-          // ------------------
-          // getting token & userId
-          const token = response.data.token;
-          const userId = response.data.userId;
-          // push values to local storage
-          localStorage.setItem("accessToken", token);
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("username", this.username);
-          // ------------------
-
-          this.$router.push("/posts"); // redirect to allPosts page
+        if (response.data === "Password incorrect") {
+          alert("Password incorrect");
+          return;
         }
+        // ------------------
+        // getting token & userId
+        const token = response.data.token;
+        const userId = response.data.userId;
+        // push values to local storage
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("username", this.username);
+        // ------------------
+
+        this.$router.push("/posts"); // redirect to allPosts page
       } catch (error) {
+        if (error) {
+          alert("Wrong Username");
+        }
         console.log("authError");
-        console.error(error);
+        console.error(error.data);
       }
     },
   },
