@@ -30,7 +30,11 @@
             name="imgFile"
             class="form-control-file"
           />
-          <button type="submit" class="btn btn-secondary new-post-btn">
+          <button
+            :disabled="!this.chosenFile && !this.p_text"
+            type="submit"
+            class="btn btn-secondary new-post-btn"
+          >
             Post it
           </button>
           <div class="submit-err-msg">
@@ -97,11 +101,10 @@ export default {
       userId: "", // to pass for new post creation
       isReadByUser: false,
       p_read_by_user: "",
-      chosenFile: {}, // for image posting
+      chosenFile: "", // for image posting
       file: "",
       submitMessage: "",
       p_author_id: "",
-
       images: null,
     };
   },
@@ -173,11 +176,11 @@ export default {
         const res = await axios(config);
         console.log("response:", res);
         this.submitMessage = "Posted!!! 😊";
-        // data: {
-        //   p_author_id: this.userId,
-        //   p_text: this.p_text,
-        //   p_image_url: this.p_image_url,
-        // },
+        // notify user posted successfully, update post page
+        setTimeout(() => {
+          this.refreshPostsButton();
+          this.submitMessage = "";
+        }, 1000);
       } catch (error) {
         console.log(error);
         this.submitMessage = "Something went wrong 💩";
